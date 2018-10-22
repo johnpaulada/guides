@@ -8,7 +8,7 @@ title: Trampolining
 Recursion, which is the act of a function calling itself, is an integral part of programming and a lot of algorithms rely on recursion for its simplest implementation. One problem with recursion is not all languages optimize for it. This results in the call stack overflowing, resulting in a break in the code execution.
 
 #### Example
-If you run this in ES5 and below code, you will experience a call stack overflow:
+If you run this in EcmaScript 5 (ES5) and below code, you will experience a call stack overflow:
 
 ```javascript
 function fact(x) {
@@ -24,10 +24,10 @@ console.log(fact(10000)); // RangeError: Maximum call stack size exceeded
 ```
 
 ### Solution
-To get around this problem, we can use a technique called **trampolining**.
-We convert a function into a trampoline by using a `trampoline()` function.
+You can use a technique called **trampolining** to get around this problem.
+You can convert a function into a trampoline by using a `trampoline()` function.
 
-Here is an example of that function in ESNext:
+Here is an example of that function using EcmaScript 6 (ES6) and beyond syntax:
 
 ```javascript
 const trampoline = fn => (...args) => {
@@ -41,7 +41,7 @@ const trampoline = fn => (...args) => {
 }
 ```
 
-To create a trampolined factorial function, we have to modify our `fact()` function first, changing the recursive case to return a function which returns a value, instead of the value itself. It would look like this:
+To create a trampolined factorial function, you have to modify our `fact()` function first, changing the recursive case to return a function which returns a value, instead of the value itself. It would look like this:
 
 ```javascript
 function fact(x, n) {
@@ -59,14 +59,14 @@ Then you use the `trampoline()` function like this:
 const trampolinedFactorial = trampoline(fact)
 ```
 
-Then just call `trampolinedFactorial()` with the values you'd use for the new `fact()` function. Example:
+After that, just call `trampolinedFactorial()` with the values you would use for the new `fact()` function. Example:
 
 ```javascript
 trampolinedFactorial(10000, 1) /// Infinity
 ```
 
 ### Why this works
-Returning a function allows instead of the value, allows us to keep calling the function repeatedly until it doesn't return a function, which means that the base case has been reached and a definite answer was discovered. We can do this by using an iterative looping method, checking whether the type of the value returned is still a function. It just keeps bouncing on and on until you finish, hence the name *trampolining*.
+Returning a function allows instead of the value, allows you to keep calling the function repeatedly until it does not return a function, which means that the base case has been reached and a definite answer was discovered. You can do this by using an iterative looping method, checking whether the type of the value returned is still a function. It just keeps bouncing on and on until you finish, hence the name *trampolining*.
 
-#### More Information:
+#### Sources
 - <a href='https://blog.logrocket.com/using-trampolines-to-manage-large-recursive-loops-in-javascript-d8c9db095ae3' target='_blank' rel='nofollow'>Using trampolines to manage large recursive loops in JavaScript</a>
