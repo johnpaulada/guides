@@ -44,11 +44,11 @@ const trampoline = fn => (...args) => {
 To create a trampolined factorial function, we have to modify our `fact()` function first, changing the recursive case to return a function which returns a value, instead of the value itself. It would look like this:
 
 ```javascript
-function fact(x) {
-    if (x <= 1) {
-        return 1;
+function fact(x, n) {
+    if (x < 2) {
+        return n;
     } else {
-        return function() { return x * fact(x-1); };
+        return function() { return fact(x-1, x * n); };
     }
 }
 ```
@@ -59,11 +59,14 @@ Then you use the `trampoline()` function like this:
 const trampolinedFactorial = trampoline(fact)
 ```
 
-Then just call `trampolinedFactorial()` with the values you'd use for the `fact()` function.
+Then just call `trampolinedFactorial()` with the values you'd use for the new `fact()` function. Example:
+
+```javascript
+trampolinedFactorial(10000, 1) /// Infinity
+```
 
 ### Why this works
-
-### Notes
+Returning a function allows instead of the value, allows us to keep calling the function repeatedly until it doesn't return a function, which means that the base case has been reached and a definite answer was discovered. We can do this by using an iterative looping method, checking whether the type of the value returned is still a function. It just keeps bouncing on and on until you finish, hence the name *trampolining*.
 
 #### More Information:
 - <a href='https://blog.logrocket.com/using-trampolines-to-manage-large-recursive-loops-in-javascript-d8c9db095ae3' target='_blank' rel='nofollow'>Using trampolines to manage large recursive loops in JavaScript</a>
